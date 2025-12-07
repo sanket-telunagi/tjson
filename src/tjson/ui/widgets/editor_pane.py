@@ -1,6 +1,6 @@
 from textual.app import ComposeResult
 from textual.containers import Vertical
-from textual.widgets import Label, TextArea, Static
+from textual.widgets import TextArea, Static
 from textual.widget import Widget
 from textual.message import Message
 from textual import on
@@ -10,7 +10,7 @@ class EditorPane(Widget):
     """A composite widget containing a label and a text editor."""
 
     class Changed(Message):
-        control = None
+        control: Widget | None = None
 
         def __init__(self, editor_pane: Widget, value: str) -> None:
             self.value = value

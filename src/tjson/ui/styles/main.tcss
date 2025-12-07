@@ -148,6 +148,9 @@ Button {
 /* -- Copy Button (Output Side) -- */
 #copy-btn {
     /* Optional: Add specific styling if needed */
+    width: 1fr; /* Takes all remaining space */
+    height: 100%; 
+    margin: 0;
 }
 
 #copy-btn:hover {
@@ -170,4 +173,126 @@ ScrollBar > .thumb {
 
 ScrollBar > .thumb:hover {
     background: #bd93f9;
+}
+
+/* ==========================================================================
+   ACTION BAR (Bottom Right)
+   ========================================================================== */
+
+.action-bar {
+    width: 100%;
+    height: 3;
+    background: #282a36;
+    margin-top: 0;
+}
+
+/* --- Copy Button (Left Side) --- */
+#copy-btn {
+    width: 1fr;
+    height: 100%; 
+    margin: 0;
+    margin-right: 1; 
+    
+    border: none;
+    background: #44475a;
+    color: #f8f8f2;
+}
+
+#copy-btn:hover {
+    background: #50fa7b;
+    color: #282a36;
+}
+
+/* --- Minify Group (Right Side) --- */
+.minify-group {
+    width: auto;
+    height: 100%;
+    
+    background: #44475a;
+    
+    /* ALIGNMENT: 'middle' puts items on the center row (Row 2 of 3) */
+    align: right middle; 
+    
+    padding: 0 2;
+}
+
+.minify-label {
+    /* CRITICAL: Force label to be 1 row high so it aligns with switch */
+    height: 1; 
+    width: auto;
+    
+    margin-right: 1;
+    color: #8be9fd; 
+    text-style: bold;
+    background: transparent;
+}
+
+/* ==========================================================================
+   COMPACT SWITCH STYLING (The Alignment Fix)
+   ========================================================================== */
+
+Switch {
+    /* CRITICAL: Force height to 1 row. 
+       This allows it to center perfectly in a 3-row container. */
+    height: 1; 
+    min-height: 1;
+    
+    /* Remove border so it fits in 1 row */
+    border: none; 
+    
+    /* High contrast dark track */
+    background: #1e1e1e; 
+    
+    /* Remove padding to keep it tight */
+    padding: 0;
+    margin: 0;
+}
+
+/* The "Thumb" (Moving part) */
+Switch > .slider {
+    background: #6272a4; 
+    color: #f8f8f2;
+    background-tint: #000 0%; /* Ensure pure color */
+}
+
+/* The "Thumb" when ON */
+Switch.-on > .slider {
+    background: #50fa7b; /* Dracula Green */
+    color: #282a36;
+}
+
+/* Hover State */
+Switch:hover {
+    background: #000000;
+}
+
+
+
+/* ==========================================================================
+   New Input file Button
+   ========================================================================== */
+
+#load-btn {
+    width: 1fr; /* Share space equally */
+    
+    /* Add gap between Load and Paste buttons */
+    margin-right: 1; 
+    
+    background: #6272a4; /* Dracula Comment (Blue-Grey) */
+    color: #f8f8f2;
+}
+#load-btn:hover {
+    background: #bd93f9; /* Purple */
+    color: #282a36;
+}
+
+#paste-btn {
+    width: 1fr; /* Share space equally */
+    
+    background: #44475a; /* Surface color */
+    color: #f8f8f2;
+}
+#paste-btn:hover {
+    background: #8be9fd; /* Cyan */
+    color: #282a36;
 }
