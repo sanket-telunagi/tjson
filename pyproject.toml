@@ -5,8 +5,9 @@ description = "A TUI based JSON formatter and editor"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "orjson>=3.11.5",
     "pyperclip>=1.11.0",
-    "textual>=6.7.1",
+    "textual[syntax]>=6.7.1",
 ]
 
 [project.scripts]

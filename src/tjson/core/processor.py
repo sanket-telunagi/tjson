@@ -1,4 +1,4 @@
-import json
+import orjson
 from dataclasses import dataclass
 from typing import Optional, Tuple
 
@@ -11,16 +11,19 @@ class ProcessingResult:
 
 
 class JSONProcessor:
-    """Handles the business logic of parsing and formatting JSON."""
-
     @staticmethod
     def process(raw_text: str, indent: int = 4) -> ProcessingResult:
         if not raw_text.strip():
             return ProcessingResult("", True, None)
 
         try:
-            parsed = json.loads(raw_text)
-            formatted = json.dumps(parsed, indent=indent)
+            # orjson.loads is 10x-50x faster than json.loads
+            parsed = orjson.loads(raw_text)
+
+            # orjson.dumps returns bytes, so we decode.
+            # OPTION_INDENT_2 is closest to standard pretty print in orjson
+            formatted = orjson.dumps(parsed, option=orjson.OPT_INDENT_2).decode("utf-8")
+
             return ProcessingResult(formatted, True, None)
-        except json.JSONDecodeError as e:
+        except orjson.JSONDecodeError as e:
             return ProcessingResult("", False, str(e))

@@ -2,10 +2,20 @@ from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.widgets import Label, TextArea
 from textual.widget import Widget
+from textual.message import Message
+from textual import on
 
 
 class EditorPane(Widget):
     """A composite widget containing a label and a text editor."""
+
+    class Changed(Message):
+        control = None
+
+        def __init__(self, editor_pane: Widget, value: str) -> None:
+            self.value = value
+            super().__init__()
+            self.control = editor_pane
 
     def __init__(self, title: str, id: str, read_only: bool = False):
         super().__init__(id=id)
@@ -15,8 +25,16 @@ class EditorPane(Widget):
     def compose(self) -> ComposeResult:
         with Vertical():
             yield Label(self.title, classes="pane-label")
-            ta = TextArea.code_editor(language="json", read_only=self.read_only)
-            ta.id = f"{self.id}-area"  # internal ID for the TextArea
+
+            # --- ENABLE SYNTAX HIGHLIGHTING HERE ---
+            ta = TextArea.code_editor(
+                language="json",  # Tells it to look for JSON syntax
+                theme="dracula",  # Adds the colors (try: 'monokai', 'github_dark'),
+                # theme="cyberpunk",  # Custom theme defined in syntax_theme.py
+                read_only=self.read_only,
+            )
+            # ---------------------------------------
+
             yield ta
 
     @property
@@ -28,3 +46,8 @@ class EditorPane(Widget):
 
     def set_text(self, text: str) -> None:
         self.text_area.text = text
+
+    @on(TextArea.Changed)
+    def _on_internal_change(self, event: TextArea.Changed) -> None:
+        event.stop()
+        self.post_message(self.Changed(self, self.text_area.text))
