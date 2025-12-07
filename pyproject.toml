@@ -1,0 +1,13 @@
+[project]
+name = "tjson"
+version = "0.1.0"
+description = "A TUI based JSON formatter and editor"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pyperclip>=1.11.0",
+    "textual>=6.7.1",
+]
+
+[project.scripts]
+tjson = "tjson.app:run"
