@@ -1,137 +1,173 @@
+/* ==========================================================================
+   GLOBAL THEME (Dracula Palette)
+   Background: #282a36 | Foreground: #f8f8f2 | Selection: #44475a
+   Comment:    #6272a4 | Cyan:       #8be9fd | Green:     #50fa7b
+   Orange:     #ffb86c | Pink:       #ff79c6 | Purple:    #bd93f9
+   Red:        #ff5555 | Yellow:     #f1fa8c
+   ========================================================================== */
+
 Screen {
-    background: #1e1e1e;
-    color: #c0c0c0;
+    background: #282a36;
+    color: #f8f8f2;
 }
 
+/* --- HEADER & FOOTER --- */
+Header {
+    background: #44475a;
+    color: #bd93f9;       /* Dracula Purple */
+    dock: top;
+    height: 1;
+    content-align: center middle;
+    text-style: bold;
+}
+
+Footer {
+    background: #44475a;
+    color: #f8f8f2;
+    dock: bottom;
+    height: 1;
+}
+
+/* --- MAIN LAYOUT --- */
 #main-container {
     height: 1fr;
     width: 100%;
     align: center middle;
-    padding: 1;
+    /* Adds breathing room around the whole app */
+    padding: 1 2; 
 }
 
-/* New Container Class for Columns */
+/* Columns for Input and Output */
 .pane-container {
     width: 1fr;
     height: 100%;
-    margin: 0 1;
+    /* Adds spacing between the two columns */
+    margin: 0 1; 
 }
+
+/* ==========================================================================
+   EDITOR PANE WIDGET
+   This is the box containing the Title and the Code Editor
+   ========================================================================== */
 
 EditorPane {
     width: 100%;
-    height: 1fr; /* Takes remaining space above button */
-    background: #252526;
-    border: solid #5e5e5e;
+    height: 1fr; /* Takes all available height, leaving space for button below */
+    background: #282a36;
+    
+    /* ROUNDED BORDERS - The modern look */
+    border: round #6272a4; /* Idle Color: Blue-Grey */
+    
+    padding: 0;
+    margin-bottom: 1; /* Small gap between box and button */
 }
 
+/* Focus State: Glows Purple */
 EditorPane:focus-within {
-    border: solid #00afff;
+    border: round #bd93f9; 
 }
 
+/* Error State: Glows Red (Applied via Python logic) */
 EditorPane.error {
-    border: solid #ff5555;
+    border: round #ff5555;
 }
+
+/* Processing State: Glows Orange (Applied via Python logic) */
+EditorPane.processing {
+    border: round #ffb86c;
+}
+
+/* ==========================================================================
+   LABELS (The Titles inside the Box)
+   ========================================================================== */
 
 .pane-label {
-    background: #333333;
-    color: #ffffff;
     width: 100%;
+    height: 3; /* Fixed height for the header bar */
+    
+    /* CENTERING: This vertically and horizontally centers the text */
+    content-align: center middle; 
     text-align: center;
+    
+    background: #44475a; /* Slightly lighter background than the editor */
+    color: #f8f8f2;
     text-style: bold;
+    
+    /* A separator line between the Title and the TextArea */
+    border-bottom: solid #6272a4;
 }
 
-TextArea {
-    border: none;
-    width: 100%;
-    height: 100%; 
+/* Specific Colors for Input vs Output Titles */
+#input-pane .pane-label {
+    color: #8be9fd; /* Cyan for Input */
 }
 
-/* Button Styling */
-Button {
-    width: 100%;
-    border: none;
-    dock: bottom; /* Ensures it stays at the bottom */
-    margin-top: 1;
+#output-pane .pane-label {
+    color: #50fa7b; /* Green for Output */
 }
 
-#paste-btn {
-    background: #007acc; /* Blue for input */
-    color: white;
-}
-
-#copy-btn {
-    background: #2e7d32; /* Green for output */
-    color: white;
-}Screen {
-    background: #1e1e1e;
-    color: #c0c0c0;
-}
-
-#main-container {
-    height: 1fr;
-    width: 100%;
-    align: center middle;
-    padding: 1;
-}
-
-/* New Container Class for Columns */
-.pane-container {
-    width: 1fr;
-    height: 100%;
-    margin: 0 1;
-}
-
-EditorPane {
-    width: 100%;
-    height: 1fr; /* Takes remaining space above button */
-    background: #252526;
-    border: solid #5e5e5e;
-}
-
-EditorPane:focus-within {
-    border: solid #00afff;
-}
-
-EditorPane.error {
-    border: solid #ff5555;
-}
-
-.pane-label {
-    background: #333333;
-    color: #ffffff;
-    width: 100%;
-    text-align: center;
-    text-style: bold;
-}
-
-/* Button Styling */
-Button {
-    width: 100%;
-    border: none;
-    dock: bottom; /* Ensures it stays at the bottom */
-    margin-top: 1;
-}
-
-#paste-btn {
-    background: #007acc; /* Blue for input */
-    color: white;
-}
-
-#copy-btn {
-    background: #2e7d32; /* Green for output */
-    color: white;
-}
-
-EditorPane {
-    width: 100%;
-    height: 1fr;
-    background: #282a36; /* This is the specific dark blue-grey of Dracula */
-    border: solid #5e5e5e;
-}
+/* ==========================================================================
+   TEXT AREA (The Code Editor)
+   ========================================================================== */
 
 TextArea {
     border: none;
     width: 100%;
     height: 100%;
-    background: #282a36; /* Ensure TextArea uses the same background */
+    
+    /* Seamless blending: Must match EditorPane background */
+    background: #282a36; 
+    
+    /* Internal padding so text isn't glued to the border */
+    padding: 0 1; 
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+Button {
+    width: 100%;
+    height: 3;
+    border: none;
+    background: #44475a; /* Default Surface Color */
+    color: #f8f8f2;
+    text-style: bold;
+}
+
+/* -- Paste Button (Input Side) -- */
+#paste-btn {
+    /* Optional: Add specific styling if needed */
+}
+
+#paste-btn:hover {
+    background: #8be9fd; /* Cyan hover */
+    color: #282a36;      /* Dark text for contrast */
+}
+
+/* -- Copy Button (Output Side) -- */
+#copy-btn {
+    /* Optional: Add specific styling if needed */
+}
+
+#copy-btn:hover {
+    background: #50fa7b; /* Green hover */
+    color: #282a36;      /* Dark text for contrast */
+}
+
+/* ==========================================================================
+   SCROLLBARS
+   Making them subtle to fit the theme
+   ========================================================================== */
+
+ScrollBar {
+    background: #282a36;
+}
+
+ScrollBar > .thumb {
+    background: #6272a4;
+}
+
+ScrollBar > .thumb:hover {
+    background: #bd93f9;
 }

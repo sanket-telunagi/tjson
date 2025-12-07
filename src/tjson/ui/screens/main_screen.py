@@ -21,7 +21,7 @@ class MainScreen(Screen):
         with Horizontal(id="main-container"):
             # LEFT PANE: Input
             with Vertical(classes="pane-container"):  # Added container for layout
-                yield EditorPane(title="INPUT (Raw)", id="input-pane")
+                yield EditorPane(title="INPUT (Raw)", id="input-pane", theme="dracula")
                 # NEW: Paste Button
                 yield Button(
                     "📋 Paste from Clipboard", id="paste-btn", variant="primary"
@@ -30,7 +30,10 @@ class MainScreen(Screen):
             # RIGHT PANE: Output
             with Vertical(classes="pane-container"):
                 yield EditorPane(
-                    title="OUTPUT (Waiting...)", id="output-pane", read_only=True
+                    title="OUTPUT (Waiting...)",
+                    id="output-pane",
+                    read_only=True,
+                    theme="monokai",
                 )
                 yield Button("📋 Copy Output", id="copy-btn", variant="success")
 
@@ -84,19 +87,6 @@ class MainScreen(Screen):
         else:
             output_pane.border_title = "OUTPUT (Pretty)"
 
-    def update_ui_with_result(self, result: ProcessingResult) -> None:
-        output_pane = self.query_one("#output-pane", EditorPane)
-        input_pane = self.query_one("#input-pane", EditorPane)
-        self.set_processing_state(False)
-
-        if result.is_valid:
-            output_pane.set_text(result.formatted_text)
-            input_pane.remove_class("error")
-            output_pane.styles.border = ("solid", "#00afff")
-        else:
-            input_pane.add_class("error")
-            output_pane.styles.border = ("solid", "#ff5555")
-
     @on(Button.Pressed, "#copy-btn")
     def action_copy(self) -> None:
         text = self.query_one("#output-pane", EditorPane).get_text()
@@ -105,3 +95,30 @@ class MainScreen(Screen):
                 self.notify("Copied to clipboard!", title="Success")
             else:
                 self.notify("Failed to access clipboard", severity="error")
+
+    def set_processing_state(self, is_processing: bool) -> None:
+        output_pane = self.query_one("#output-pane", EditorPane)
+
+        if is_processing:
+            # Change Title
+            output_pane.query_one(".pane-label").update("OUTPUT (Processing... ⏳)")
+            # Add CSS class for styling (defined in main.tcss)
+            output_pane.add_class("processing")
+        else:
+            output_pane.query_one(".pane-label").update("OUTPUT (Pretty)")
+            output_pane.remove_class("processing")
+
+    def update_ui_with_result(self, result: ProcessingResult) -> None:
+        output_pane = self.query_one("#output-pane", EditorPane)
+        input_pane = self.query_one("#input-pane", EditorPane)
+
+        self.set_processing_state(False)
+
+        if result.is_valid:
+            output_pane.set_text(result.formatted_text)
+            input_pane.remove_class("error")
+            # We let the default CSS take over (purple focus or grey idle)
+        else:
+            input_pane.add_class("error")
+            # Optional: Display error in status bar or notification
+            self.notify(f"Invalid JSON: {result.error_message}", severity="error")

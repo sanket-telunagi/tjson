@@ -1,6 +1,6 @@
 from textual.app import ComposeResult
 from textual.containers import Vertical
-from textual.widgets import Label, TextArea
+from textual.widgets import Label, TextArea, Static
 from textual.widget import Widget
 from textual.message import Message
 from textual import on
@@ -17,19 +17,24 @@ class EditorPane(Widget):
             super().__init__()
             self.control = editor_pane
 
-    def __init__(self, title: str, id: str, read_only: bool = False):
+    def __init__(
+        self, title: str, id: str, read_only: bool = False, theme: str = "dracula"
+    ) -> None:
         super().__init__(id=id)
         self.title = title
         self.read_only = read_only
+        self.theme = theme
 
     def compose(self) -> ComposeResult:
         with Vertical():
-            yield Label(self.title, classes="pane-label")
+            yield Static(self.title, classes="pane-label")
 
             # --- ENABLE SYNTAX HIGHLIGHTING HERE ---
             ta = TextArea.code_editor(
                 language="json",  # Tells it to look for JSON syntax
-                theme="dracula",  # Adds the colors (try: 'monokai', 'github_dark'),
+                theme=getattr(
+                    self, "theme", "dracula"
+                ),  # Adds the colors (try: 'monokai', 'github_dark'),
                 # theme="cyberpunk",  # Custom theme defined in syntax_theme.py
                 read_only=self.read_only,
             )
