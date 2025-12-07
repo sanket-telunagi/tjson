@@ -34,16 +34,14 @@ class FilePickerScreen(ModalScreen[str]):
     /* --- HEADER (Title) --- */
     #dialog-title {
         width: 100%;
+        /* Vertical Centering Strategy */
         padding: 1 0;
         text-align: center;
-        /* CRITICAL: Centers text vertically and horizontally */
-        content-align: center middle; 
         
-        /*background: #44475a;*/
+        background: #44475a;
         color: #f8f8f2;
         text-style: bold;
         
-        /* A subtle line to separate header from tree */
         border-bottom: solid #6272a4; 
     }
 
@@ -67,108 +65,99 @@ class FilePickerScreen(ModalScreen[str]):
     /* --- FOOTER (Action Bar) --- */
     #dialog-footer {
         width: 100%;
-        height: 4; /* Taller footer to let buttons float */
-        /*background: #44475a;*/
+        height: 4; 
+        
         border-top: solid #6272a4;
         
-        /* Centers the button groups vertically in the footer */
         align: center middle; 
         padding: 0 1;
     }
 
-    /* --- BUTTON STYLING (The "Rounded B" Look) --- */
+    /* --- BUTTON STYLING (Global for this screen) --- */
     Button {
-        height: 3; /* Standard height */
-        min-width: 14;
+        height: 3; 
+        /*min-width: 14;*/
         
-        /* Rounded Corners for the buttons themselves */
+        /* Capsule Look */
         border: round; 
         
-        /* Center text inside the button */
         content-align: center middle; 
-        
         margin-left: 1;
         margin-right: 1;
         text-style: bold;
     }
 
-    /* --- Navigation Buttons (Left) --- */
+    /* --- Navigation Group (Left) --- */
     #nav-group {
         width: auto;
-        height: auto;
+        height: 100%;
         align: left middle;
     }
 
+    /* Up Level: Orange Theme */
     #btn-up {
-        background: #282a36; /* Dark inside */
-        color: #ffb86c;      /* Orange Text */
-        border: round #ffb86c; /* Orange Border */
+        background: #282a36; 
+        color: #ffb86c;      
+        border: round #ffb86c; 
     }
     #btn-up:hover {
         background: #ffb86c;
         color: #282a36;
     }
 
+    /* Home: Cyan Theme */
     #btn-home {
         background: #282a36;
-        color: #8be9fd;      /* Cyan Text */
-        border: round #8be9fd; /* Cyan Border */
+        color: #8be9fd;      
+        border: round #8be9fd; 
     }
     #btn-home:hover {
         background: #8be9fd;
         color: #282a36;
     }
 
-    /* --- Action Buttons (Right) --- */
+    /* --- Action Group (Right) --- */
     #action-group {
         width: 1fr;
-        height: auto;
+        height: 100%;
         align: right middle;
     }
 
+    /* Cancel: Red Theme (UPDATED) */
     #btn-cancel {
-        background: #282a36;
-        color: #ff5555;      /* Red Text */
+        background: #282a36;   /* Dark Inside */
+        color: #ff5555;        /* Red Text */
         border: round #ff5555; /* Red Border */
     }
     #btn-cancel:hover {
-        background: #ff5555;
-        color: #f8f8f2;
+        background: #ff5555;   /* Fill Red */
+        color: #282a36;        /* Dark Text for Contrast */
     }
 
-
-    ScrollBar {
-        background: #282a36;
-    }
-    ScrollBar > .thumb {
-        background: #44475a;
-    }
-    ScrollBar > .thumb:hover {
-        background: #bd93f9;
-    }
+    /* --- SCROLLBARS --- */
+    ScrollBar { background: #282a36; }
+    ScrollBar > .thumb { background: #44475a; }
+    ScrollBar > .thumb:hover { background: #bd93f9; }
     """
 
     def compose(self):
         with Vertical(id="picker-dialog"):
-            # 1. Header (Static Title)
+            # Header
             yield Static("📂 Open File", id="dialog-title")
 
-            # 2. Body (Tree)
+            # Body
             yield DirectoryTree("./", id="tree")
 
-            # 3. Footer (Action Bar)
+            # Footer
             with Horizontal(id="dialog-footer"):
-                # Navigation Group
                 with Horizontal(id="nav-group"):
                     yield Button("⬆ Up Level", id="btn-up")
                     yield Button("🏠 Home", id="btn-home")
-
-                # Action Group
-                with Horizontal(id="action-group"):
                     yield Button("Cancel", id="btn-cancel")
 
+                # with Horizontal(id="action-group"):
+
     def on_mount(self):
-        """Runs when the modal opens."""
         tree = self.query_one(DirectoryTree)
         start_path = ConfigStore.get_last_path()
         tree.path = start_path
