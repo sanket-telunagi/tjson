@@ -83,13 +83,13 @@ EditorPane.processing {
 
 .pane-label {
     width: 100%;
-    height: 3; /* Fixed height for the header bar */
+    padding: 1 0 ;
     
     /* CENTERING: This vertically and horizontally centers the text */
     content-align: center middle; 
     text-align: center;
     
-    background: #44475a; /* Slightly lighter background than the editor */
+    /*background: #44475a; Slightly lighter background than the editor */
     color: #f8f8f2;
     text-style: bold;
     
