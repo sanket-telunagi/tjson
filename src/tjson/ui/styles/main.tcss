@@ -151,6 +151,7 @@ Button {
 #load-btn:hover {
     background: #bd93f9;  /* Fill Purple */
     color: #282a36;       /* Dark Text */
+    border: round #bd93f9;
 }
 
 /* --- 2. Paste Button (Cyan) --- */
@@ -162,6 +163,7 @@ Button {
 #paste-btn:hover {
     background: #8be9fd;
     color: #282a36;
+    border: round #8be9fd; 
 }
 
 /* --- 3. Copy Output Button (Green) --- */

@@ -2,9 +2,7 @@ from textual.screen import ModalScreen
 from textual.widgets import DirectoryTree, Button, Static
 from textual.containers import Vertical, Horizontal
 from textual import on
-import os
 from pathlib import Path
-
 from tjson.services.config_store import ConfigStore
 
 
@@ -103,6 +101,7 @@ class FilePickerScreen(ModalScreen[str]):
     #btn-up:hover {
         background: #ffb86c;
         color: #282a36;
+        border: round #ffb86c;
     }
 
     /* Home: Cyan Theme */

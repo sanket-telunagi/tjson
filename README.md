@@ -56,10 +56,13 @@ pip install "textual[syntax]" orjson pyperclip
 
 ### 🚀 Usage
 To start the application, run the module from the source directory:
-code
-Bash
+
+```Bash
 python -m src.tjson.app
-Controls & Workflow
+```
+
+
+### Controls & Workflow
 Input (Left Pane):
 Type/Paste: Type raw JSON directly.
 Paste Button: Use the "📋 Paste" button for text larger than 4KB (Terminal buffers limit Ctrl+V).
@@ -70,10 +73,12 @@ Syntax Highlighting: Automatically colors Keys (Blue), Strings (Green), and Bool
 Action Bar:
 Minify Toggle: Switch to compact view instantly.
 Copy Output: Copies the currently formatted result to your OS clipboard.
-🏗️ Architecture
+
+
+### 🏗️ Architecture
 TJSON is built with a Component-Based Architecture to ensure scalability and maintainability.
-code
-Text
+
+```Text
 src/tjson/
 ├── app.py                 # Application Entry Point & Registry
 ├── core/
@@ -84,22 +89,25 @@ src/tjson/
 │   ├── screens/           # Main Screen & Modal Logic
 │   ├── styles/            # CSS (TCSS) Definitions
 │   └── widgets/           # Reusable Components (EditorPane)
-Design Decisions
+```
+
+### Design Decisions
 Decoupled Logic: The JSONProcessor knows nothing about the UI. It accepts strings and returns data classes.
 Event-Driven: Custom messages (EditorPane.Changed) bubble up to the Controller, keeping widgets isolated.
 Non-Blocking: All heavy JSON processing happens in @work(thread=True) workers to keep the TUI fluid.
-💅 Visuals & Fonts
+
+### 💅 Visuals & Fonts
 For the best experience, use a Nerd Font to see glyphs and ligatures correctly.
 Recommended: JetBrains Mono Nerd Font
 Theme: The app uses a hardcoded Dracula theme (Dark Grey background #282a36 with Neon accents).
-🤝 Contributing
+
+### 🤝 Contributing
 Contributions are welcome!
 Fork the Project
 Create your Feature Branch (git checkout -b feature/AmazingFeature)
 Commit your Changes (git commit -m 'Add some AmazingFeature')
 Push to the Branch (git push origin feature/AmazingFeature)
 Open a Pull Request
-📄 License
+
+### 📄 License
 Distributed under the MIT License. See LICENSE for more information.
-code
-Code
